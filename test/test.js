@@ -13,9 +13,6 @@ describe("collision of", function(){
     sat.test(circle1, circle2, responseHandler);
 
     expect(responseHandler.called).toBe(true);
-    expect(responseHandler.firstCall.args[0].overlap).toEqual(10);
-    expect(responseHandler.firstCall.args[0].overlapV.x).toEqual(10);
-    expect(responseHandler.firstCall.args[0].overlapV.y).toEqual(0);
   });
 
   it("circle and polygon", function(){
@@ -26,9 +23,6 @@ describe("collision of", function(){
     sat.test(p, c, responseHandler);
 
     expect(responseHandler.called).toBe(true);
-    expect(responseHandler.firstCall.args[0].overlap.toFixed(2)).toEqual(5.86);
-    expect(responseHandler.firstCall.args[0].overlapV.x.toFixed(2)).toEqual(4.14);
-    expect(responseHandler.firstCall.args[0].overlapV.y.toFixed(2)).toEqual(4.14);
   });
 
   it("polygon and polygon", function() {
@@ -38,9 +32,6 @@ describe("collision of", function(){
     sat.test(s, t, responseHandler);
 
     expect(responseHandler.called).toBe(true);
-    expect(responseHandler.firstCall.args[0].overlap).toEqual(10);
-    expect(responseHandler.firstCall.args[0].overlapV.x).toEqual(10);
-    expect(responseHandler.firstCall.args[0].overlapV.y).toEqual(0);
   });
 });
 
