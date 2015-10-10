@@ -1,3 +1,5 @@
+'use strict';
+
 function sub(a, b) {
     return {
         x: a.x - b.x,
@@ -70,9 +72,10 @@ function reverse (v) {
 
 function project (v1, v2) {
   var amt = dot(v1, v2) / len2(v2);
+
   return {
-    x: amt * v.x,
-    y: amt * v.y
+    x: amt * v1.x,
+    y: amt * v1.y
   };
 }
 
