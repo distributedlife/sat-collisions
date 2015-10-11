@@ -7,8 +7,8 @@ var sinon = require('sinon');
 
 describe('collision of', function(){
   it('two circles', function(){
-    var circle1 = shapes.circle(0, 0, 20);
-    var circle2 = shapes.circle(30, 0, 20);
+    var circle1 = shapes.circle({x: 0, y: 0}, 20);
+    var circle2 = shapes.circle({x: 30, y: 0}, 20);
 
     var responseHandler = sinon.spy();
     sat.test(circle1, circle2, responseHandler);
@@ -17,8 +17,8 @@ describe('collision of', function(){
   });
 
   it('circle and polygon', function(){
-    var c = shapes.circle(50, 50, 20);
-    var p = shapes.tlSquare(0, 0, 40);
+    var c = shapes.circle({x: 50, y: 50}, 20);
+    var p = shapes.tlSquare({x: 0, y: 0}, 40);
 
     var responseHandler = sinon.spy();
     sat.test(p, c, responseHandler);
@@ -27,8 +27,8 @@ describe('collision of', function(){
   });
 
   it('polygon and polygon', function() {
-    var s = shapes.tlSquare(0, 0, 40);
-    var t = shapes.triangle(30, 0, 30);
+    var s = shapes.tlSquare({x: 0, y: 0}, 40);
+    var t = shapes.triangle({x: 30, y: 0}, 30);
     var responseHandler = sinon.spy();
     sat.test(s, t, responseHandler);
 
@@ -40,8 +40,8 @@ describe('No collision between', function(){
   it('two boxes', function() {
     var responseHandler = sinon.spy();
 
-    var box1 = shapes.tlSquare(0, 0, 20);
-    var box2 = shapes.tlSquare(100, 10, 20);
+    var box1 = shapes.tlSquare({x: 0, y: 0}, 20);
+    var box2 = shapes.tlSquare({x: 100, y: 10}, 20);
     sat.test(box1, box2, responseHandler);
 
     expect(responseHandler.called).toBe(false);
@@ -50,7 +50,7 @@ describe('No collision between', function(){
 
 describe('Hit testing', function(){
   it('a circle', function(){
-    var c = shapes.circle(100, 10, 20);
+    var c = shapes.circle({x: 100, y: 10}, 20);
 
     var responseHandler = sinon.spy();
 
@@ -62,7 +62,7 @@ describe('Hit testing', function(){
   });
 
   it('a polygon', function(){
-    var t = shapes.triangle(30, 0, 30);
+    var t = shapes.triangle({x: 30, y: 0}, 30);
 
     var responseHandler = sinon.spy();
 
