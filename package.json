@@ -1,8 +1,8 @@
 {
-  "name": "sat",
+  "name": "distributedlife-sat",
   "description": "Library for performing 2D collision detection",
-  "version": "0.5.0",
-  "author": "Jim Riecken <jriecken@gmail.com>",
+  "version": "1.0.0",
+  "author": ["Ryan Boucher <ryan.boucher@distributedlife>", "Jim Riecken <jriecken@gmail.com>"],
   "keywords": [
     "collision detection",
     "game",
@@ -10,23 +10,21 @@
   ],
   "license": {
     "type": "MIT",
-    "url": "http://github.com/jriecken/sat-js/raw/master/LICENSE"
+    "url": "http://github.com/distributedlife/sat/raw/master/LICENSE"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jriecken/sat-js.git"
+    "url": "git://github.com/distributedlife/sat.git"
   },
   "bugs": {
-    "url": "http://github.com/jriecken/sat-js/issues"
+    "url": "http://github.com/distributedlife/sat/issues"
   },
   "scripts": {
     "test": "mocha"
   },
-  "main": "SAT.js",
+  "main": "index.js",
   "devDependencies": {
-    "mocha": "^2.1.0"
-  },
-  "dependencies": {
+    "mocha": "^2.1.0",
     "expect": "^1.11.1",
     "sinon": "^1.17.1"
   }
