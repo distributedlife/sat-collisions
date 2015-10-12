@@ -1,12 +1,8 @@
-SAT.js
-======
+# distributedlife-sat
 
- - [Classes](#classes)
- - [Collision Tests](#tests)
- - [Examples](#examples)
+This project is a rewrite of [Jim Riecken's SAT.js](http://jriecken.github.io/sat-js/) library. I rewrote it on a flight back to see family in coding style that suites me. I also trimmed out stuff I don't think I need. It's not compatible due to API changes but all the tests still pass.
 
-About
------
+# About
 
 SAT.js is a simple JavaScript library for performing collision detection (and projection-based collision response) of simple 2D shapes.  It uses the [Separating Axis Theorem](http://en.wikipedia.org/wiki/Hyperplane_separation_theorem) (hence the name)
 
@@ -16,272 +12,96 @@ It supports detecting collisions between:
 
 It also supports checking whether a point is inside a circle or polygon.
 
+When a collision occurs your callback gets invoked.
+
 It's released under the [MIT](http://en.wikipedia.org/wiki/MIT_License) license.
 
-Current version: `0.5.0`. [Annotated source code](http://jriecken.github.io/sat-js/docs/SAT.html) is available.
+To use it in node.js, you can run `npm install distributedlife-sat` and then use it with `var SAT = require('distributedlife-sat');`
 
-Nicely compresses with the [Google Closure Compiler](https://developers.google.com/closure/compiler/) in **Advanced** mode to about 6KB (2KB gzipped)
+# Functions
 
-To use it in node.js, you can run `npm install sat` and then use it with `var SAT = require('sat');`
+I took a more functional approach than the original. All you have is functions and data. Functions return new versions of data, so through away your old stuff.
 
-<a name="classes"></a>
-Classes
---------
+The original SAT.js library has a bunch of performance stuff around limiting reallocs, etc. I have stripped all that out as using this for high-performance stuff isn't an objective.
 
-SAT.js contains the following JavaScript classes:
 
-### SAT.Vector (aliased as SAT.V)
+## Collisions
+I collapsed the original set of functions that run different algorithms depending on whether you have one or two circles, polygons or points into a single function. This works out what structure you have and calls the appropriate algorithm.
 
-This is a simple 2D vector/point class.  It is created by calling:
-```javascript
-// Create the vector (10,10) - If (x,y) not specified, defaults to (0,0).
-var v = new SAT.Vector(10, 10)
-```
-
-It has the following properties:
-
- - `x` - The x-coordinate of the Vector.
- - `y` - The y-coordinate of the Vector.
-
-It contains the following methods:
-
- - `copy(other)` - Copy the value of another Vector to this one.
- - `clone()` - Return a new vector with the same coordinates as this one.
- - `perp()` - Change this vector to be perpendicular to what it was before.
- - `rotate(angle)` - Rotate this vector counter-clockwise by the specified number of radians.
- - `reverse()` - Reverse this Vector.
- - `normalize()` - Make the Vector unit-lengthed.
- - `add(other)` - Add another Vector to this one.
- - `sub(other)` - Subtract another Vector from this one.
- - `scale(x,y)` - Scale this Vector in the X and Y directions.
- - `project(other)` - Project this Vector onto another one.
- - `projectN(other)` - Project this Vector onto a unit Vector.
- - `reflect(axis)` - Reflect this Vector on an arbitrary axis Vector.
- - `reflectN(axis)` - Reflect this Vector on an arbitrary axis unit Vector.
- - `dot(other)` - Get the dot product of this Vector and another.
- - `len2()` - Get the length squared of this Vector.
- - `len()` - Get the length of this Vector
-
-### SAT.Circle
-
-This is a simple circle with a center position and a radius.  It is created by calling:
-```javascript
-// Create a circle whose center is (10,10) with radius of 20
-var c = new SAT.Circle(new SAT.Vector(10,10), 20);
-```
-
-It has the following properties:
-
- - `pos` - A Vector representing the center of the circle.
- - `r` - The radius of the circle
-
-
-### SAT.Polygon
-
-This is a **convex** polygon, whose points are specified in a counter-clockwise fashion.  It is created by calling:
-```javascript
-// Create a triangle at (0,0)
-var p = new SAT.Polygon(new SAT.Vector(), [
-  new SAT.Vector(),
-  new SAT.Vector(100,0),
-  new SAT.Vector(50,75)
-]);
-```
-
-Note: The points are counter-clockwise *with respect to the coordinate system*. If you directly draw the points on a screen that has the origin at the top-left corner it will _appear_ visually that the points are being specified clockwise. This is just because of the inversion of the Y-axis when being displayed.
-
-You can create a line segment by creating a `Polygon` that contains only 2 ppoints.
-
-It has the following properties:
-
- - `pos` - The position of the polygon (all points are relative to this).
- - `points` - Array of vectors representing the original points of the polygon.
- - `angle` - Angle to rotate the polgon (affects `calcPoints`)
- - `offset` - Translation to apply to the polygon before the `angle` rotation (affects `calcPoints`)
- - `calcPoints` - (Calculated) The collision polygon - effectively `points` with `angle` and `offset` applied.
- - `edges` - (Calculated) Array of Vectors representing the edges of the calculated polygon
- - `normals` - (Calculated) Array of Vectors representing the edge normals of the calculated polygon (perpendiculars)
-
-You should _not_ manually change any of the properties except `pos` - use the `setPoints`, `setAngle`, and `setOffset` methods to ensure that the calculated properties are updated correctly.
-
-It has the following methods:
-
- - `setPoints(points)` - Set the original points
- - `setAngle(angle)` - Set the current rotation angle (in radians)
- - `setOffset(offset)` - Set the current offset
- - `rotate(angle)` - Rotate the original points of this polygon counter-clockwise (around its local coordinate system) by the specified number of radians. The `angle` rotation will be applied on top of this rotation.
- - `translate(x, y)` - Translate the original points of this polygon (relative to the local coordinate system) by the specified amounts. The `offset` translation will be applied on top of this translation.
-
-### SAT.Box
-
-This is a simple Box with a position, width, and height.  It is created by calling:
-```javascript
-// Create a box at (10,10) with width 20 and height 40.
-var b = new SAT.Box(new SAT.Vector(10,10), 20, 40);
-```
-
-It has the following properties:
-
- - `pos` - The bottom-left coordinate of the box (i.e the smallest `x` value and the smallest `y` value).
- - `w` - The width of the box.
- - `h` - The height of the box.
-
-It has the following methods:
-
- - `toPolygon()` - Returns a new Polygon whose edges are the edges of the box.
-
-### SAT.Response
-
-This is the object representing the result of a collision between two objects.  It just has a simple `new Response()` constructor.
-
-It has the following properties:
-
- - `a` - The first object in the collision.
- - `b` - The second object in the collison.
- - `overlap` - Magnitude of the overlap on the shortest colliding axis.
- - `overlapN` - The shortest colliding axis (unit-vector)
- - `overlapV` - The overlap vector (i.e. `overlapN.scale(overlap, overlap)`).  If this vector is subtracted from the position of `a`, `a` and `b` will no longer be colliding.
- - `aInB` - Whether the first object is completely inside the second.
- - `bInA` - Whether the second object is completely inside the first.
-
-It has the following methods:
-
-- `clear()` - Clear the response so that it is ready to be reused for another collision test.
-
-
-<a name="tests"></a>
-Collision Tests
----------------
-
-SAT.js contains the following collision tests:
-
-### `SAT.pointInCircle(p, c)`
-
-Checks whether a given point is inside the specified circle.
-
-### `SAT.pointInPolygon(p, poly)`
-
-Checks whether a given point is inside a specified convex polygon.
-
-### `SAT.testCircleCircle(a, b, response)`
-
-Tests for a collision between two `Circle`s, `a`, and `b`.  If a response is to be calculated in the event of collision, pass in a cleared `Response` object.
-
-Returns `true` if the circles collide, `false` otherwise.
-
-### `SAT.testPolygonCircle(polygon, circle, response)`
-
-Tests for a collision between a `Polygon` and a `Circle`.  If a response is to be calculated in the event of a collision, pass in a cleared `Response` object.
-
-Returns `true` if there is a collision, `false` otherwise.
-
-### `SAT.testCirclePolygon(circle, polygon, response)`
-
-The same thing as `SAT.testPolygonCircle`, but in the other direction.
-
-Returns `true` if there is a collision, `false` otherwise.
-
-*NOTE: This is slightly slower than `SAT.testPolygonCircle` as it just calls that and reverses the result*
-
-### `SAT.testPolygonPolygon(a, b, response)`
-
-Tests whether two polygons `a` and `b` collide. If a response is to be calculated in the event of collision, pass in a cleared `Response` object.
-
-Returns `true` if there is a collision, `false` otherwise.
-
-*NOTE: If you want to detect a collision between `Box`es, use the `toPolygon()` method*
-
-<a name="examples"></a>
-Examples
---------
-
-Test two circles
-```javascript
-var V = SAT.Vector;
-var C = SAT.Circle;
-
-var circle1 = new C(new V(0,0), 20);
-var circle2 = new C(new V(30,0), 20);
-var response = new SAT.Response();
-var collided = SAT.testCircleCircle(circle1, circle2, response);
-
-// collided => true
-// response.overlap => 10
-// response.overlapV => (10, 0)
-```
-
-Test a circle and a polygon
-```javascript
-var V = SAT.Vector;
-var C = SAT.Circle;
-var P = SAT.Polygon;
-
-var circle = new C(new V(50,50), 20);
-// A square
-var polygon = new P(new V(0,0), [
-  new V(0,0), new V(40,0), new V(40,40), new V(0,40)
-]);
-var response = new SAT.Response();
-var collided = SAT.testPolygonCircle(polygon, circle, response);
-
-// collided => true
-// response.overlap ~> 5.86
-// response.overlapV ~> (4.14, 4.14) - i.e. on a diagonal
-```
-
-Test two polygons
-```javascript
-var V = SAT.Vector;
-var P = SAT.Polygon;
-
-// A square
-var polygon1 = new P(new V(0,0), [
-  new V(0,0), new V(40,0), new V(40,40), new V(0,40)
-]);
-// A triangle
-var polygon2 = new P(new V(30,0), [
-  new V(0,0), new V(30, 0), new V(0, 30)
-]);
-var response = new SAT.Response();
-var collided = SAT.testPolygonPolygon(polygon1, polygon2, response);
-
-// collided => true
-// response.overlap => 10
-// response.overlapV => (10, 0)
-```
-
-No collision between two Boxes
-```javascript
-var V = SAT.Vector;
-var B = SAT.Box;
-
-var box1 = new B(new V(0,0), 20, 20).toPolygon();
-var box2 = new B(new V(100,100), 20, 20).toPolygon();
-var collided = SAT.testPolygonPolygon(box1, box2);
-
-// collided => false
-```
-
-Hit testing a circle and polygon
-```javascript
-var V = SAT.Vector;
-var C = SAT.Circle;
-var P = SAT.Polygon;
-
-var triangle = new P(new V(30,0), [
-  new V(0,0), new V(30, 0), new V(0, 30)
-]);
-var circle = new C(new V(100,100), 20);
-
-SAT.pointInPolygon(new V(0,0), triangle); // false
-SAT.pointInPolygon(new V(35, 5), triangle); // true
-SAT.pointInCircle(new V(0,0), circle); // false
-SAT.pointInCircle(new V(110,110), circle); // true
+- if you have a `radius`, you're a circle
+- if you have an `x` and a `y`, you're a vector
+- otherwise, you're a polygon
 
 ```
+function callMeOnCollision () {
+  console.log('ouch');
+}
 
-Tests
------
+var test = require('distributedlife-sat').collisions.test;
+test(a, b, callMeOnCollision)
+```
+
+At present we call your callback on collision and you get no further information about who was doing, what direction they were heading, etc.
+
+## Shapes
+
+Inside is a helper file with a bunch of shapes. These make it easier for you to create objects for colliding. These objects exist in your physics models. I make no promises about how easy it may be to render them. I like to keep my physics model and my rendering model separate.
+
+Most shapes take a point that is their anchor in world space. For the circle, this will be the center. For the rectangles you have the option of a centre oriented `c` object or a top-left `tl` oriented one.
+```
+var shapes = require('distributedlife-sat').shapes;
+
+var origin = {x: 0, y: 0};
+var width = 25;
+var height = 25;
+
+circle(origin, 25);
+tlSquare(origin, width);
+tlBox(origin, width, height);
+tlRectangle(origin, width, height);
+cSquare(origin, width);
+cBox(origin, width, height);
+cRectangle(origin, width, height);
+polygon(points, [{x: 0, y: 0}, {x: 100, y: 100}, {x: 0, y: 100}]);
+triangle(origin, width);
+```
+
+The `box` and `rectangles` are synonyms.
+
+## Useful Vector Functions
+
+All of these functions return new vectors and do not modify the supplied vectors.
+
+-- **sub** (v1, v2) - subtract v2 from v1 and return the new vector
+-- **add** (v1, v2) - add v2 to v1 and return the new vector
+-- **dot** (v1, v2) - return the dot product of v1 and v2
+-- **len2** (v) - return dot product of the vector and itself
+-- **len** (v) - return the magnitude of the vector
+-- **normalise** (v) - return the normal of the vector
+-- **scale** (v1, v2) - scale v1 by v2. If v2 only has an x coordinate, it scales both x and y of v1 by v2.x
+-- **perp** (v) - return the vector perpendicular to the supplied vector
+-- **rotate** (v, angle) - return the vector that is a rotate of `angle` on `v`
+-- **reverse** (v) - return the reverse of the vector
+-- **project** (v1, v2) - project v1 on v2.
+-- **reflect** (v, axis) - reflect the vector along the supplied axis
+
+## Useful Polygon Functions
+
+All of these functions return new polygons and do not modify the supplied polygons.
+
+-- **rotate** (polygon, angle) - rotate polygon by angle
+-- **translate** (polygon, vector) - translate polygon by vector
+-- **setPoints** (polygon, points) - set the points of the polygon
+-- **setOffset** (polygon, offset) - change the offset of the polygon from it's world origin
+-- **setAngle** (polygon, angle) - set the angle of the polygon
+-- **getAABB** (polygon) - return the Axis-Aligned Bounding Box for the polygon
+
+## Useful Circle Functions
+
+-- getAABB (circle) - return the Axis Aligned Bounding Box for the supplied circle.
+
+
+# Tests
 
 To run the tests from your console:
 
