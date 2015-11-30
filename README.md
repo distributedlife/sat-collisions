@@ -70,7 +70,7 @@ The `box` and `rectangles` are synonyms.
 
 ## Useful Vector Functions
 
-All of these functions return new vectors and do not modify the supplied vectors.
+These functions return new vectors and without modifying the supplied vectors.
 
 - **sub** (v1, v2) - subtract v2 from v1 and return the new vector
 - **add** (v1, v2) - add v2 to v1 and return the new vector
@@ -78,7 +78,7 @@ All of these functions return new vectors and do not modify the supplied vectors
 - **len2** (v) - return dot product of the vector and itself
 - **len** (v) - return the magnitude of the vector
 - **normalise** (v) - return the normal of the vector
-- **scale** (v1, v2) - scale v1 by v2. If v2 only has an x coordinate, it scales both x and y of v1 by v2.x
+- **scale** (v, x, y) - scale v1 by x and y. If y is not supplied it scales v.x and v.y by the x value.
 - **perp** (v) - return the vector perpendicular to the supplied vector
 - **rotate** (v, angle) - return the vector that is a rotate of `angle` on `v`
 - **reverse** (v) - return the reverse of the vector
