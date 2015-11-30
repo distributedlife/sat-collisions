@@ -72,33 +72,33 @@ The `box` and `rectangles` are synonyms.
 
 All of these functions return new vectors and do not modify the supplied vectors.
 
--- **sub** (v1, v2) - subtract v2 from v1 and return the new vector
--- **add** (v1, v2) - add v2 to v1 and return the new vector
--- **dot** (v1, v2) - return the dot product of v1 and v2
--- **len2** (v) - return dot product of the vector and itself
--- **len** (v) - return the magnitude of the vector
--- **normalise** (v) - return the normal of the vector
--- **scale** (v1, v2) - scale v1 by v2. If v2 only has an x coordinate, it scales both x and y of v1 by v2.x
--- **perp** (v) - return the vector perpendicular to the supplied vector
--- **rotate** (v, angle) - return the vector that is a rotate of `angle` on `v`
--- **reverse** (v) - return the reverse of the vector
--- **project** (v1, v2) - project v1 on v2.
--- **reflect** (v, axis) - reflect the vector along the supplied axis
+- **sub** (v1, v2) - subtract v2 from v1 and return the new vector
+- **add** (v1, v2) - add v2 to v1 and return the new vector
+- **dot** (v1, v2) - return the dot product of v1 and v2
+- **len2** (v) - return dot product of the vector and itself
+- **len** (v) - return the magnitude of the vector
+- **normalise** (v) - return the normal of the vector
+- **scale** (v1, v2) - scale v1 by v2. If v2 only has an x coordinate, it scales both x and y of v1 by v2.x
+- **perp** (v) - return the vector perpendicular to the supplied vector
+- **rotate** (v, angle) - return the vector that is a rotate of `angle` on `v`
+- **reverse** (v) - return the reverse of the vector
+- **project** (v1, v2) - project v1 on v2.
+- **reflect** (v, axis) - reflect the vector along the supplied axis
 
 ## Useful Polygon Functions
 
 All of these functions return new polygons and do not modify the supplied polygons.
 
--- **rotate** (polygon, angle) - rotate polygon by angle
--- **translate** (polygon, vector) - translate polygon by vector
--- **setPoints** (polygon, points) - set the points of the polygon
--- **setOffset** (polygon, offset) - change the offset of the polygon from it's world origin
--- **setAngle** (polygon, angle) - set the angle of the polygon
--- **getAABB** (polygon) - return the Axis-Aligned Bounding Box for the polygon
+- **rotate** (polygon, angle) - rotate polygon by angle
+- **translate** (polygon, vector) - translate polygon by vector
+- **setPoints** (polygon, points) - set the points of the polygon
+- **setOffset** (polygon, offset) - change the offset of the polygon from it's world origin
+- **setAngle** (polygon, angle) - set the angle of the polygon
+- **getAABB** (polygon) - return the Axis-Aligned Bounding Box for the polygon
 
 ## Useful Circle Functions
 
--- getAABB (circle) - return the Axis Aligned Bounding Box for the supplied circle.
+- getAABB (circle) - return the Axis Aligned Bounding Box for the supplied circle.
 
 
 # Tests
