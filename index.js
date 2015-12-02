@@ -5,5 +5,6 @@ module.exports = {
   vector: require('./lib/vector'),
   polygon: require('./lib/polygon'),
   circle: require('./lib/circle'),
-  collision: require('./lib/collision')
+  collision: require('./lib/collision'),
+  determineShape: require('./lib/determine-shape')
 };
