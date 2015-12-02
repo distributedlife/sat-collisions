@@ -1,8 +1,11 @@
 {
   "name": "distributedlife-sat",
   "description": "Library for performing 2D collision detection",
-  "version": "1.0.0",
-  "author": ["Ryan Boucher <ryan.boucher@distributedlife>", "Jim Riecken <jriecken@gmail.com>"],
+  "version": "1.1.0",
+  "author": [
+    "Ryan Boucher <ryan.boucher@distributedlife>",
+    "Jim Riecken <jriecken@gmail.com>"
+  ],
   "keywords": [
     "collision detection",
     "game",
