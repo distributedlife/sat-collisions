@@ -34,6 +34,15 @@ describe('collision of', function(){
 
     expect(responseHandler.called).toBe(true);
   });
+
+  it('vector and vector', function() {
+    var s = {x: 0, y: 0};
+    var t = {x: 0, y: 0};
+    var responseHandler = sinon.spy();
+    sat.test(s, t, responseHandler);
+
+    expect(responseHandler.called).toBe(true);
+  });
 });
 
 describe('No collision between', function(){
