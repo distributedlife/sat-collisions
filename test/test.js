@@ -11,9 +11,10 @@ describe('collision of', function(){
     var circle2 = shapes.circle({x: 30, y: 0}, 20);
 
     var responseHandler = sinon.spy();
-    sat.test(circle1, circle2, responseHandler);
+    var result = sat.test(circle1, circle2, responseHandler);
 
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 
   it('circle and polygon', function(){
@@ -21,27 +22,30 @@ describe('collision of', function(){
     var p = shapes.tlSquare({x: 0, y: 0}, 40);
 
     var responseHandler = sinon.spy();
-    sat.test(p, c, responseHandler);
+    var result = sat.test(p, c, responseHandler);
 
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 
   it('polygon and polygon', function() {
     var s = shapes.tlSquare({x: 0, y: 0}, 40);
     var t = shapes.triangle({x: 30, y: 0}, 30);
     var responseHandler = sinon.spy();
-    sat.test(s, t, responseHandler);
+    var result = sat.test(s, t, responseHandler);
 
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 
   it('vector and vector', function() {
     var s = {x: 0, y: 0};
     var t = {x: 0, y: 0};
     var responseHandler = sinon.spy();
-    sat.test(s, t, responseHandler);
+    var result = sat.test(s, t, responseHandler);
 
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 });
 
@@ -51,9 +55,10 @@ describe('No collision between', function(){
 
     var box1 = shapes.tlSquare({x: 0, y: 0}, 20);
     var box2 = shapes.tlSquare({x: 100, y: 10}, 20);
-    sat.test(box1, box2, responseHandler);
+    var result = sat.test(box1, box2, responseHandler);
 
     expect(responseHandler.called).toBe(false);
+    expect(result).toBe(false);
   });
 });
 
@@ -63,11 +68,13 @@ describe('Hit testing', function(){
 
     var responseHandler = sinon.spy();
 
-    sat.test({x:0,y:0}, c, responseHandler);
+    var result = sat.test({x:0,y:0}, c, responseHandler);
     expect(responseHandler.called).toBe(false);
+    expect(result).toBe(false);
 
-    sat.test({x:110,y:10}, c, responseHandler);
+    result = sat.test({x:110,y:10}, c, responseHandler);
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 
   it('a polygon', function(){
@@ -75,10 +82,12 @@ describe('Hit testing', function(){
 
     var responseHandler = sinon.spy();
 
-    sat.test({x: 0, y: 0}, t, responseHandler);
+    var result = sat.test({x: 0, y: 0}, t, responseHandler);
     expect(responseHandler.called).toBe(false);
+    expect(result).toBe(false);
 
-    sat.test({x: 35, y: 5}, t, responseHandler);
+    result = sat.test({x: 35, y: 5}, t, responseHandler);
     expect(responseHandler.called).toBe(true);
+    expect(result).toBe(true);
   });
 });
