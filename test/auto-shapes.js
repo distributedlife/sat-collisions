@@ -20,6 +20,7 @@ describe('auto-resolve shape', function() {
 
     expect(autoResolve(shape)).toEqual({
       angle: 0,
+      hint: 'square',
       calcPoints: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
@@ -33,7 +34,11 @@ describe('auto-resolve shape', function() {
       points: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
-      position: {x: 3, y: 4}
+      position: {x: 3, y: 4},
+      width: 10,
+      height: 10,
+      length: 10,
+      size: 10
     });
   });
 
@@ -42,6 +47,7 @@ describe('auto-resolve shape', function() {
 
     expect(autoResolve(shape)).toEqual({
       angle: 0,
+      hint: 'square',
       calcPoints: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
@@ -55,7 +61,11 @@ describe('auto-resolve shape', function() {
       points: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
-      position: {x: 3, y: 4}
+      position: {x: 3, y: 4},
+      width: 10,
+      height: 10,
+      length: 10,
+      size: 10
     });
   });
 
@@ -64,6 +74,7 @@ describe('auto-resolve shape', function() {
 
     expect(autoResolve(shape)).toEqual({
       angle: 0,
+      hint: 'square',
       calcPoints: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
@@ -77,7 +88,11 @@ describe('auto-resolve shape', function() {
       points: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }
       ],
-      position: {x: 3, y: 4}
+      position: {x: 3, y: 4},
+      width: 10,
+      height: 10,
+      length: 10,
+      size: 10
     });
   });
 
@@ -86,6 +101,7 @@ describe('auto-resolve shape', function() {
 
     expect(autoResolve(shape)).toEqual({
       angle: 0,
+      hint: 'rect',
       calcPoints: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 20 }, { x: 0, y: 20 }
       ],
@@ -99,7 +115,9 @@ describe('auto-resolve shape', function() {
       points: [
         { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 20 }, { x: 0, y: 20 }
       ],
-      position: {x: 3, y: 4}
+      position: {x: 3, y: 4},
+      width: 10,
+      height: 20
     });
   });
 
